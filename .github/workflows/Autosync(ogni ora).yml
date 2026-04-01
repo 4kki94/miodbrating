@@ -1,12 +1,13 @@
-name: Sync(ogni_ora)
+name: Sync con Upstream
+
+permissions:
+  contents: write
+  workflows: write # Aggiungiamo esplicitamente questo
 
 on:
   schedule:
     - cron: '0 * * * *'
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   sync:
@@ -14,8 +15,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Sync Upstream
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Usiamo il segreto che hai appena creato
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           gh repo sync 4kki94/miodbrating --source realbestia1/erdb --force
