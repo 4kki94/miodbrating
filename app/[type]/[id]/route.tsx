@@ -54,6 +54,7 @@ import {
   putCachedImageToObjectStorage,
 } from '@/lib/objectStorage';
 import { getMetadata, setMetadata } from '@/lib/metadataCache';
+import { fetchWithRetry } from '@/lib/request';
 
 export const runtime = 'nodejs';
 
@@ -648,7 +649,10 @@ const fetchStreamBadges = async (input: {
     let response: Response | null = null;
     try {
       response = await measurePhase(input.phases, 'stream', () =>
-        fetch(buildTorrentioUrl(input.type, trimmedId), { cache: 'no-store' })
+        fetchWithRetry(buildTorrentioUrl(input.type, trimmedId), {
+          cache: 'no-store',
+          timeout: 10000,
+        })
       );
     } catch {
       const failureTtl = Math.min(ttlMs, 2 * 60 * 1000);
@@ -1522,7 +1526,7 @@ const fetchJsonCached = async (
     let response: Response;
     try {
       response = await measurePhase(phases, phase, () =>
-        fetch(url, {
+        fetchWithRetry(url, {
           cache: 'no-store',
           ...init,
         })
@@ -1595,7 +1599,7 @@ const fetchTextCached = async (
     if (fromCache) return fromCache;
 
     const response = await measurePhase(phases, phase, () =>
-      fetch(url, {
+      fetchWithRetry(url, {
         cache: 'no-store',
         redirect: 'follow',
         ...init,
@@ -6472,7 +6476,19 @@ export async function GET(
       }
 
       if (!imgUrl && !imgPath) {
-        throw new HttpError('Image not found', 404);
+        if (imageType === 'logo') {
+          let fallbackImdbId = mappedImdbId || (media as any)?.imdb_id || null;
+          if (!fallbackImdbId && detailsBundlePromise) {
+            const bundle = await detailsBundlePromise;
+            fallbackImdbId = bundle?.bundledExternalIds?.imdb_id || null;
+          }
+          if (fallbackImdbId && isImdbId(fallbackImdbId)) {
+            imgUrl = `https://live.metahub.space/logo/large/${fallbackImdbId}/img`;
+          }
+        }
+        if (!imgUrl) {
+          throw new HttpError('Image not found', 404);
+        }
       }
       if (!imgUrl) {
         imgUrl = buildTmdbImageUrl(imageType, imgPath, outputWidth);
@@ -6482,10 +6498,21 @@ export async function GET(
       const posterTitleText = shouldApplyPosterCleanOverlay
         ? pickPosterTitleFromMedia(media, mediaType, rawFallbackTitle)
         : null;
-      const posterLogoUrl =
+      let posterLogoUrl =
         shouldApplyPosterCleanOverlay && selectedPosterLogoPath
           ? buildTmdbImageUrl('logo', selectedPosterLogoPath, outputWidth)
           : null;
+
+      if (shouldApplyPosterCleanOverlay && !posterLogoUrl) {
+        let fallbackImdbId = mappedImdbId || (media as any)?.imdb_id || null;
+        if (!fallbackImdbId && detailsBundlePromise) {
+          const bundle = await detailsBundlePromise;
+          fallbackImdbId = bundle?.bundledExternalIds?.imdb_id || null;
+        }
+        if (fallbackImdbId && isImdbId(fallbackImdbId)) {
+          posterLogoUrl = `https://live.metahub.space/logo/large/${fallbackImdbId}/img`;
+        }
+      }
       const shouldRenderThumbnailFallbackOverlay =
         imageType === 'thumbnail' &&
         usedThumbnailBackdropFallback &&
