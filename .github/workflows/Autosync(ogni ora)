@@ -1,27 +1,22 @@
-name: Sync Upstream
+name: Sync con Upstream
 
 permissions:
   contents: write
 
 on:
   schedule:
-    # Esegue l'azione ogni ora (minuto 0 di ogni ora)
-    - cron: '0 * * * *'
-  workflow_dispatch: # Permette anche l'avvio manuale per testare
+    - cron: '0 * * * *' # Ogni ora, al minuto zero
+  workflow_dispatch: # Ti permette di farlo partire a mano per testare
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout target repo
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Sync upstream
+      - name: Sync Upstream
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Sostituisci 'owner/repo' con il repository originale (upstream)
-          # Esempio: gh repo sync tuo-username/tuo-repo --source originale/repo
-          gh repo sync ${{ github.repository }} --source $(gh repo view --json parent -q ".parent.owner.login")/$(gh repo view --json parent -q ".parent.name")
+          gh repo sync 4kki94/miodbrating --source realbestia1/erdb --force
