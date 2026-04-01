@@ -1,12 +1,12 @@
 name: Sync con Upstream
 
-permissions:
-  contents: write
-
 on:
   schedule:
-    - cron: '0 * * * *' # Ogni ora, al minuto zero
-  workflow_dispatch: # Ti permette di farlo partire a mano per testare
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   sync:
@@ -14,7 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Sync Upstream
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
