@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.3.7](https://github.com/realbestia1/erdb/compare/v0.3.6...v0.3.7) - 2026-04-03
+
+- Improve SQLite WAL management in v0.3.7 ([8c1ca2c](https://github.com/realbestia1/erdb/commit/8c1ca2c82b474622248d605a2c7f358b406b7369))
+  - improve SQLite WAL handling for erdb.db by enabling synchronous NORMAL, wal_autocheckpoint, and journal_size_limit
+  - run wal_checkpoint(TRUNCATE) after IMDb import jobs to prevent erdb.db-wal from growing indefinitely after large write operations
+  - reduce the risk of oversized WAL files during heavy cache writes and dataset imports
+
 ## [0.3.6](https://github.com/realbestia1/erdb/compare/v0.3.5...v0.3.6) - 2026-04-03
 
 - Improve poster language handling and bump to v0.3.6 ([bdef6dd](https://github.com/realbestia1/erdb/commit/bdef6ddcc0fb025532783d8a98fd50d3dbc1991a))
