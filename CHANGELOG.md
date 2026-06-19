@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.91](https://github.com/realbestia1/erdb/compare/v0.4.90...v0.4.91) - 2026-06-19
+
+- Update cache versions and bump package ([87a2175](https://github.com/realbestia1/erdb/commit/87a217563d8e90e7b044a3edf8226f28495d2f6f))
+  Increment FINAL_IMAGE_RENDERER_CACHE_VERSION to 'poster-backdrop-logo-thumbnail-v243' to force image cache invalidation, and update stream badges cache namespace from v9 to v10 to rotate that cache. Also bump package.json version to 0.4.91. tsconfig.tsbuildinfo was regenerated as part of the build metadata update.
+
+## [0.4.90](https://github.com/realbestia1/erdb/compare/v0.4.89...v0.4.90) - 2026-06-19
+
+- Refine HDR badge regex & scoring; bump versions ([b02ae5d](https://github.com/realbestia1/erdb/commit/b02ae5d1328e4d78539eae90ea3adf8f5d121503))
+  Tighten HDR badge regexes to avoid false positives/word-embedded matches and adjust scoring logic to ignore badges in the 'quality' and 'audio' categories when computing score. Also bump FINAL_IMAGE_RENDERER_CACHE_VERSION (v240 -> v242) and package version (0.4.89 -> 0.4.90). tsconfig build info updated as a build artifact.
+
+## [0.4.89](https://github.com/realbestia1/erdb/compare/v0.4.88...v0.4.89) - 2026-06-19
+
+- Simplify badge regexes; bump versions ([f9eba16](https://github.com/realbestia1/erdb/commit/f9eba166154ccfb1d089b9f78e43d8d3e73e30fd))
+  Refactor stream badge regexes in lib/ratingBadgeLogic.ts to use word-boundaries and targeted negative lookaheads for hdr/hdr10/hdr10plus and IMAX, improving matching accuracy and simplifying complex lookahead logic. Update FINAL_IMAGE_RENDERER_CACHE_VERSION in lib/routeConfig.ts (v237 → v240) and bump package version to 0.4.89. tsbuildinfo was updated as part of the build output.
+
 ## [0.4.88](https://github.com/realbestia1/erdb/compare/v0.4.87...v0.4.88) - 2026-06-19
 
 - Increase badge fonts and bump versions ([f2be7fa](https://github.com/realbestia1/erdb/commit/f2be7faad0643b0c006d374964481b5d3e8f91e9))
