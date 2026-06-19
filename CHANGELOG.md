@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.93](https://github.com/realbestia1/erdb/compare/v0.4.92...v0.4.93) - 2026-06-19
+
+- Refactor quality badge tint logic; bump version ([b7a6049](https://github.com/realbestia1/erdb/commit/b7a604909456c3b006ebd58e43e71c39c8f69a1d))
+  Rework tintColor computation in lib/imageRenderer.ts to simplify nested ternaries and change behavior: known quality keys (remux, bluray, webdl, webrip, dolbyvision, hdr10plus, hdr10, hdr, imaxenhanced, imax, sdr) now always return 'colored', while other quality badges use badge.accentColor only when input.qualityBadgesColorMode is 'colored' (otherwise default to #ffffff). Also increment package version to 0.4.93.
+
+## [0.4.92](https://github.com/realbestia1/erdb/compare/v0.4.91...v0.4.92) - 2026-06-19
+
+- Add 240-576p badges, update icons, bump cache ([f30b4c7](https://github.com/realbestia1/erdb/commit/f30b4c7620054789634a461b573ed71e565956a8))
+  Add lower-resolution stream badges (576p, 480p, 360p, 240p) and include them in STREAM_BADGE_META, STREAM_BADGE_ORDER, STREAM_BADGE_PATTERNS, and STREAM_BADGE_CATEGORY in lib/ratingBadgeLogic.ts. Replace icon URLs for 4k/1080p/720p with CDN-hosted SVGs and adjust iconWidthRatio values. Update cache namespace from v10 to v11 in lib/streamBadges.ts to invalidate prior cached results. Bump package version to 0.4.92 in package.json.
+- Update route.ts ([8a9d787](https://github.com/realbestia1/erdb/commit/8a9d7870058f2ed842a604200f5c9a5db02b0bf1))
+
 ## [0.4.91](https://github.com/realbestia1/erdb/compare/v0.4.90...v0.4.91) - 2026-06-19
 
 - Update cache versions and bump package ([87a2175](https://github.com/realbestia1/erdb/commit/87a217563d8e90e7b044a3edf8226f28495d2f6f))
