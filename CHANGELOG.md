@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.4.97](https://github.com/realbestia1/erdb/compare/v0.4.96...v0.4.97) - 2026-08-20
+
+- Remove startup image cache warmup ([b16018c](https://github.com/realbestia1/erdb/commit/b16018c55b08a52ee159bab8569724fcf2afe70f))
+  Bump version to 0.4.97. This removes the startup hook that eagerly required the image cache cleanup route during server boot. That warmup was fragile and could warn/fail during initialization without blocking startup, so the server now starts directly without it.
+
 ## [0.4.96](https://github.com/realbestia1/erdb/compare/v0.4.95...v0.4.96) - 2026-08-20
 
 - Add final image cache versioning and TTL ([ded892a](https://github.com/realbestia1/erdb/commit/ded892a017679628982d6506c40aafd6d0f86326))
