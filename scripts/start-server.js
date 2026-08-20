@@ -127,30 +127,6 @@ const prepareLocalStandaloneAssets = (entrypoint) => {
   }
 };
 
-const warmImageCachePruner = (entrypoint) => {
-  const routeEntrypoint = path.join(
-    path.dirname(entrypoint),
-    '.next',
-    'server',
-    'app',
-    '[type]',
-    '[id]',
-    'route.js',
-  );
-  if (!fs.existsSync(routeEntrypoint)) {
-    return;
-  }
-
-  try {
-    require(routeEntrypoint);
-  } catch (error) {
-    console.warn(
-      'Unable to initialize image cache cleanup at startup, continuing with server startup.',
-      error instanceof Error ? error.message : error,
-    );
-  }
-};
-
 const workerCount = resolveWorkerCount();
 const candidateEntrypoints = [
   path.resolve(__dirname, '..', '.next', 'standalone', 'server.js'),
@@ -167,8 +143,6 @@ if (!serverEntrypoint) {
 if (serverEntrypoint.includes(`${path.sep}.next${path.sep}standalone${path.sep}`)) {
   prepareLocalStandaloneAssets(serverEntrypoint);
 }
-
-warmImageCachePruner(serverEntrypoint);
 
 if (workerCount === 1) {
   require(serverEntrypoint);
