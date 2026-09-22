@@ -1,0 +1,19 @@
+name: Sync Tags from Upstream
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch and Push Upstream Tags
+        run: |
+          git remote add upstream https://github.com/realbestia1/erdb.git
+          git fetch upstream --tags
+          git push origin --tags
