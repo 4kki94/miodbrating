@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.5.1](https://github.com/realbestia1/erdb/compare/v0.5.0...v0.5.1) - 2026-09-23
+
+- Scale poster badge sizing with output dimensions ([e46b27d](https://github.com/realbestia1/erdb/commit/e46b27d7348014cf6049e8068cac16cdd015bdd9))
+  Poster badges, quality rows, and ranking assets now scale relative to the rendered output width instead of fixed 500px baselines. This keeps poster compositions proportional across larger outputs while preserving minimum/maximum badge sizes. The cache version and app version were bumped to invalidate stale poster renders.
+
 ## [0.5.0](https://github.com/realbestia1/erdb/compare/v0.4.99...v0.5.0) - 2026-09-23
 
 - Bump version ([67285ac](https://github.com/realbestia1/erdb/commit/67285acd68066e6ec80a872cbddd8c442101873e))
