@@ -2053,9 +2053,9 @@ export function useHomePageController({
 
   const applyImportedConfig = useCallback((
     payload: Record<string, unknown>,
-    options: { includeProxy?: boolean } = {}
+    options: { includeProxy?: boolean; resetMissingBackdropAsPoster?: boolean } = {}
   ) => {
-    const { includeProxy = true } = options;
+    const { includeProxy = true, resetMissingBackdropAsPoster = false } = options;
     if (typeof payload.tmdbKey === 'string') {
       setTmdbKey(payload.tmdbKey);
     }
@@ -2118,6 +2118,8 @@ export function useHomePageController({
       setBackdropAsPoster(payload.backdropAsPoster);
     } else if (payload.backdropAsPoster === 'on' || payload.backdropAsPoster === 'true') {
       setBackdropAsPoster(true);
+    } else if (payload.backdropAsPoster === 'off' || payload.backdropAsPoster === 'false' || resetMissingBackdropAsPoster) {
+      setBackdropAsPoster(false);
     }
     if (typeof payload.posterStreamBadges === 'string' && isStreamBadgesSetting(payload.posterStreamBadges)) {
       setPosterStreamBadges(payload.posterStreamBadges);
@@ -2451,7 +2453,7 @@ export function useHomePageController({
       return;
     }
     const frameId = window.requestAnimationFrame(() => {
-      applyImportedConfig(initialConfig, { includeProxy: false });
+      applyImportedConfig(initialConfig, { includeProxy: false, resetMissingBackdropAsPoster: true });
     });
     return () => window.cancelAnimationFrame(frameId);
   }, [applyImportedConfig, initialConfig]);
