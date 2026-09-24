@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.6.2](https://github.com/realbestia1/erdb/compare/v0.6.1...v0.6.2) - 2026-09-24
+
+- Add resetMissingBackdropAsPoster import option ([ee02a7f](https://github.com/realbestia1/erdb/commit/ee02a7f1e89e2d0b1310180af170b22ca93ae0f0))
+  Introduce a new applyImportedConfig option (resetMissingBackdropAsPoster) to allow treating a missing backdropAsPoster in imported payloads as explicit false. Update parsing to handle 'on'/'off'/'true'/'false' string values and to set backdropAsPoster=false when the new flag is enabled. Use this flag when applying the initial config on mount. Bump package version to 0.6.2.
+
 ## [0.6.1](https://github.com/realbestia1/erdb/compare/v0.6.0...v0.6.1) - 2026-09-24
 
 - Refine clean image fallback logic ([6023058](https://github.com/realbestia1/erdb/commit/6023058a7adf59cf8c28c572bb385c020894c346))
