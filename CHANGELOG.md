@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.6.1](https://github.com/realbestia1/erdb/compare/v0.6.0...v0.6.1) - 2026-09-24
+
+- Refine clean image fallback logic ([6023058](https://github.com/realbestia1/erdb/commit/6023058a7adf59cf8c28c572bb385c020894c346))
+  Tightened clean-image handling so only the clean preference triggers Fanart.tv/textless fallbacks, and fixed poster/backdrop logo rendering to respect the clean preference only. Also improved TMDB poster/backdrop selection logic to prefer textless images for clean mode while preserving better alternative-mode fallbacks, and bumped the cache version and package version for the new behavior.
+
 ## [0.6.0](https://github.com/realbestia1/erdb/compare/v0.5.3...v0.6.0) - 2026-09-24
 
 - Add backdrop poster mode and collision diagnostics ([582f881](https://github.com/realbestia1/erdb/commit/582f88173f921c66f8a0c979630041d7390a8e21))
