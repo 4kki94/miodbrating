@@ -374,7 +374,7 @@ export function HomePageView({ refs, derived }: HomePageViewProps) {
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-[#0b0f15]/80 p-4">
                     <div className="text-xs text-slate-400">Live Output</div>
-                    <div className="mt-1 text-sm font-semibold text-white">Preview, proxy URL, and AiOMetadata patterns in one workspace</div>
+                    <div className="mt-1 text-sm font-semibold text-white">Preview, proxy URL, and renderer URL patterns in one workspace</div>
                   </div>
                 </div>
               </div>
