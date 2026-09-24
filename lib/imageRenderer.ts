@@ -50,6 +50,13 @@ export const renderWithSharp = async (
     let imageLeft = Math.max(0, Math.floor((input.outputWidth - imageWidth) / 2));
     let imageTop = 0;
     let renderedImageHeight = imageHeight;
+    const baseImagePipeline = input.imageType === 'logo'
+      ? null
+      : sharp(sourceBuffer).resize(imageWidth, imageHeight, {
+        fit: 'cover',
+        position: 'center',
+        background: transparentBackground,
+      });
     const resizedImageBuffer: Buffer =
       input.imageType === 'logo'
         ? await (async () => {
@@ -69,15 +76,12 @@ export const renderWithSharp = async (
             .png({ compressionLevel: 1 })
             .toBuffer();
         })()
-        : await sharp(sourceBuffer)
-          .resize(imageWidth, imageHeight, {
-            fit: 'cover',
-            position: 'center',
-            background: transparentBackground,
-          })
+        : await baseImagePipeline.clone()
           .png({ compressionLevel: 1 })
           .toBuffer();
-    overlays.push({ input: resizedImageBuffer, top: imageTop, left: imageLeft });
+    if (!baseImagePipeline) {
+      overlays.push({ input: resizedImageBuffer, top: imageTop, left: imageLeft });
+    }
 
     const iconByProvider = new Map<BadgeKey, string | null>();
     const badgesWithIcons = [
@@ -2227,14 +2231,17 @@ export const renderWithSharp = async (
         ? { r: 0, g: 0, b: 0, alpha: 0 }
         : { r: 17, g: 17, b: 17, alpha: 1 };
 
-    let pipeline = sharp({
+    let pipeline = baseImagePipeline || sharp({
       create: {
         width: input.outputWidth,
         height: input.finalOutputHeight,
         channels: 4,
         background,
       },
-    }).composite(overlays);
+    });
+    if (overlays.length > 0) {
+      pipeline = pipeline.composite(overlays);
+    }
     if (input.imageType === 'logo') {
       pipeline = pipeline.trim({ background: transparentBackground });
     }
