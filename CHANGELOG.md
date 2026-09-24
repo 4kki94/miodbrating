@@ -2,6 +2,37 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.6.3](https://github.com/realbestia1/erdb/compare/v0.6.2...v0.6.3) - 2026-09-24
+
+- Redesign workspace configurator UI and add catalog reordering ([cf75dc2](https://github.com/realbestia1/erdb/commit/cf75dc22b099ec28ebcc917e322296acbfcb98d9))
+  Rework the /configurator workspace layout and restore missing config actions.
+
+  - New app bar: centered type/media/language group, compact account menu (save,
+  copy token, rotate, logout), single responsive markup instead of duplicated
+  desktop/mobile trees, and the language picker moved next to the save buttons
+  on mobile so it is no longer hidden by the search field.
+  - Configuration panel rebuilt as a single scroll with section headers, ordered
+  API keys, Preset, Artwork, Artwork text, Style, Layout, Ranking, Providers.
+  Presets now use descriptive names (Average Classic, Classic Split, Top Rated,
+  Minimal, Logo Focus, Side Stacked, Side Compact, Custom) with layout summaries
+  and a note explaining which controls each preset locks.
+  - Addon proxy panel reorganized into numbered steps (source manifest, ID
+  alignment, artwork types, output) with a pinned footer holding URL patterns
+  and import/export. Import/export actions existed in the controller but were no
+  longer rendered anywhere; they are wired back and now live in that footer.
+  - Catalog customization: drag & drop reordering in the Configure Catalogs modal
+  (grip handle, drag preview, Reset order). catalogOrder is carried through the
+  encoded proxy config, token config, export/import and localStorage, and the
+  proxy manifest builder applies it server-side, keeping derived search/discover
+  variants grouped with their source catalog. Catalog overrides (names, hidden,
+  search-disabled, discover-only, order) are now persisted on save instead of
+  being dropped.
+  - Expose already-supported-but-hidden settings: ranking compact badge, poster
+  language with presets, quality badge style/color for backdrops.
+  - Unify mixed IT/EN strings to English ("Backdrp" -> "Backdrop", collision
+  warning, rotate-token copy).
+  - Bump package version to 0.6.3.
+
 ## [0.6.2](https://github.com/realbestia1/erdb/compare/v0.6.1...v0.6.2) - 2026-09-24
 
 - Add resetMissingBackdropAsPoster import option ([ee02a7f](https://github.com/realbestia1/erdb/commit/ee02a7f1e89e2d0b1310180af170b22ca93ae0f0))
