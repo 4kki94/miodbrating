@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.6.0](https://github.com/realbestia1/erdb/compare/v0.5.3...v0.6.0) - 2026-09-24
+
+- Add backdrop poster mode and collision diagnostics ([582f881](https://github.com/realbestia1/erdb/commit/582f88173f921c66f8a0c979630041d7390a8e21))
+  This adds a backdrop-as-poster mode across the route, proxy config, and preview UI. It reuses poster layout settings for backdrop previews, tracks overlay collision warnings, exposes them in preview responses, and adds a collision helper plus regression tests to keep badge/logo placement stable.
+
 ## [0.5.3](https://github.com/realbestia1/erdb/compare/v0.5.2...v0.5.3) - 2026-09-24
 
 - Add renderer URL patterns and copy UI ([4547eac](https://github.com/realbestia1/erdb/commit/4547eacfa9b96c6a2cc62198d540d49fd178487f))
