@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.5.2](https://github.com/realbestia1/erdb/compare/v0.5.1...v0.5.2) - 2026-09-24
+
+- Improve image cache invalidation and TMDB rendering ([1e10b2d](https://github.com/realbestia1/erdb/commit/1e10b2ddc512313282ff774f3bee989803520c57))
+  This updates the source image cache key to invalidate stale entries and preserves TMDB source bytes instead of re-encoding them. It also avoids unnecessary composite overlays for logo renders, keeps the render pipeline aligned with the new asset behavior, and bumps the cache version and package metadata to match the change.
+
 ## [0.5.1](https://github.com/realbestia1/erdb/compare/v0.5.0...v0.5.1) - 2026-09-23
 
 - Scale poster badge sizing with output dimensions ([e46b27d](https://github.com/realbestia1/erdb/commit/e46b27d7348014cf6049e8068cac16cdd015bdd9))
