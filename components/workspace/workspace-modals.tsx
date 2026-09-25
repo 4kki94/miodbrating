@@ -57,10 +57,10 @@ const EPISODE_ID_PATTERNS = [
 ] as const;
 
 const NUVIO_PATTERN_ENTRIES = [
-  ['poster', 'Poster URL Pattern', 'poster/{type}/{id}.jpg'],
-  ['backdrop', 'Backdrop URL Pattern', 'backdrop/{type}/{id}.jpg'],
-  ['logo', 'Logo URL Pattern', 'logo/{type}/{id}.jpg'],
-  ['thumbnail', 'Episode Thumbnail URL Pattern', 'thumbnail/{type}/{id}:{season}:{episode}.jpg'],
+  ['poster', 'Poster URL Pattern', 'poster/{id}.jpg?type={type}&shape={shape}'],
+  ['backdrop', 'Backdrop URL Pattern', 'backdrop/{id}.jpg?type={type}'],
+  ['logo', 'Logo URL Pattern', 'logo/{id}.jpg?type={type}'],
+  ['thumbnail', 'Episode Thumbnail URL Pattern', 'thumbnail/{id}:{season}:{episode}.jpg?type={type}'],
 ] as const;
 
 type RendererUrlPattern = readonly [label: string, id: string];
@@ -578,8 +578,9 @@ export function WorkspaceModals({ state, actions, derived, isCatalogModalOpen, s
                   </h5>
                   <p className="mt-1 max-w-3xl text-xs text-slate-500">
                     Ready-to-paste patterns for Nuvio custom artwork fields.{' '}
-                    {'{type}'} resolves to movie/series, {'{id}'} is the full meta ID (tt..., tmdb:1396, kitsu:7442, ...),
-                    and {'{season}'}/{'{episode}'} are used by episode thumbnails.
+                    {'{id}'} is the full meta ID (tt..., tmdb:1396, kitsu:7442, ...), {'{type}'} resolves to movie/series, and{' '}
+                    {'{season}'}/{'{episode}'} are used by episode thumbnails. On the poster pattern,{' '}
+                    {'{shape}'} (poster|landscape) forces the backdrop-as-poster layout per request; {'{shape}'}=square is not supported.
                   </p>
                 </div>
                 <div className="mt-4 grid grid-cols-1 gap-3 xl:grid-cols-2">

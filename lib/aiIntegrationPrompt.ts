@@ -25,7 +25,8 @@ Path parameter | Values
 erdbBaseUrl | Defaults to https://easyratingsdb.com but should be user-configurable
 erdbToken | Tk-...
 type | poster, backdrop, logo, thumbnail
-kind | movie or series (optional; anime is accepted and ignored; legacy URLs without kind still work)
+kind | movie or series (optional as a path segment or ?type= query param; anime is accepted and ignored; legacy URLs without kind still work)
+shape | poster or landscape (optional; poster-only, landscape forces the backdrop-as-poster rendering; square is not supported)
 id | IMDb (tt...), TMDB (tmdb:id), TVDB episode IDs, Kitsu, AniList, MAL
 
 All visual settings, provider choices, API keys, language defaults, layouts, and badge options are resolved from the token on the server.

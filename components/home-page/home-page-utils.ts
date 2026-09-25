@@ -559,6 +559,7 @@ export const buildAiometadataPatternBlock = (options: {
   imageType: 'poster' | 'backdrop' | 'logo' | 'thumbnail';
   configString: string;
   idPattern?: string;
+  typeQuery?: string;
   ranking: string;
   rankingCountry: string;
   rankingNoBox?: boolean;
@@ -568,7 +569,8 @@ export const buildAiometadataPatternBlock = (options: {
   }
 
   if (options.activeToken) {
-    return `${options.baseUrl}/${options.activeToken}/${options.imageType}/${options.idPattern || '{imdb_id}'}.jpg`;
+    const typeQuery = options.typeQuery ? `?type=${options.typeQuery}` : '';
+    return `${options.baseUrl}/${options.activeToken}/${options.imageType}/${options.idPattern || '{imdb_id}'}.jpg${typeQuery}`;
   }
 
   if (!options.configString) {
@@ -583,6 +585,9 @@ export const buildAiometadataPatternBlock = (options: {
   }
 
   const params: Array<[string, string]> = [];
+  if (options.typeQuery) {
+    params.push(['type', options.typeQuery]);
+  }
   const THUMBNAIL_SUPPORTED_RATINGS = new Set(['tmdb', 'imdb']);
 
   const pushIfString = (key: string) => {
@@ -654,59 +659,38 @@ export const buildAiometadataPatternBlock = (options: {
       params.push(['posterRatingsMaxPerSide', String(config.posterRatingsMaxPerSide)]);
     }
     pushIfString('posterVerticalBadgeContent');
+    if (config.backdropAsPoster === 'on' || config.backdropAsPoster === true) {
+      params.push(['backdropAsPoster', 'on']);
+    }
   } else if (options.imageType === 'backdrop' || options.imageType === 'thumbnail') {
     if (options.imageType === 'backdrop') {
       pushIfString('backdropLang');
       pushIfString('backdropAnimeLang');
       pushIfString('backdropAnimeImageText');
     }
-    if (options.imageType === 'backdrop' && (config.backdropAsPoster === 'on' || config.backdropAsPoster === true)) {
-      pushIfString('backdropAsPoster');
-      pushIfString('posterRatings');
-      pushIfString('posterRatingsLayout');
-      pushIfString('posterGenrePosition');
-      pushIfString('posterVerticalBadgeContent');
-      pushIfString('posterStreamBadges');
-      pushIfString('posterQualityBadgesPosition');
-      pushIfString('posterQualityBadgesStyle');
-      pushIfString('posterQualityBadgesColorMode');
-      if (typeof config.posterRatingsColorMode === 'string' && config.posterRatingsColorMode !== '') {
-        params.push(['ratingsColorMode', config.posterRatingsColorMode]);
+    const typeRatingStyle = options.imageType === 'thumbnail' ? config.thumbnailRatingStyle : config.backdropRatingStyle;
+    const typeRatingsColorMode = options.imageType === 'thumbnail' ? config.thumbnailRatingsColorMode : config.backdropRatingsColorMode;
+    if (typeof typeRatingsColorMode === 'string' && typeRatingsColorMode !== '') {
+      params.push(['ratingsColorMode', typeRatingsColorMode]);
+    }
+    if (typeof typeRatingStyle === 'string' && typeRatingStyle !== '') {
+      params.push(['ratingStyle', typeRatingStyle]);
+    }
+    if (options.imageType !== 'thumbnail' && typeof config.backdropImageText === 'string' && config.backdropImageText !== '') {
+      params.push(['imageText', config.backdropImageText]);
+    }
+    pushIfString(options.imageType === 'thumbnail' ? 'thumbnailRatingsLayout' : 'backdropRatingsLayout');
+    pushIfString(options.imageType === 'thumbnail' ? 'thumbnailVerticalBadgeContent' : 'backdropVerticalBadgeContent');
+    if (options.imageType === 'thumbnail') {
+      const thumbnailRatingsSource = config.thumbnailRatings ?? config.ratings;
+      const thumbnailRatings = filterThumbnailRatings(thumbnailRatingsSource);
+      if (typeof thumbnailRatingsSource === 'string') {
+        params.push(['ratings', thumbnailRatings]);
       }
-      if (typeof config.posterRatingStyle === 'string' && config.posterRatingStyle !== '') {
-        params.push(['ratingStyle', config.posterRatingStyle]);
-      }
-      if (typeof config.posterImageText === 'string' && config.posterImageText !== '') {
-        params.push(['imageText', config.posterImageText]);
-      }
-      if (typeof config.posterRatingsMaxPerSide === 'string' || typeof config.posterRatingsMaxPerSide === 'number') {
-        params.push(['posterRatingsMaxPerSide', String(config.posterRatingsMaxPerSide)]);
-      }
+      pushIfString('thumbnailSize');
     } else {
-      const typeRatingStyle = options.imageType === 'thumbnail' ? config.thumbnailRatingStyle : config.backdropRatingStyle;
-      const typeRatingsColorMode = options.imageType === 'thumbnail' ? config.thumbnailRatingsColorMode : config.backdropRatingsColorMode;
-      if (typeof typeRatingsColorMode === 'string' && typeRatingsColorMode !== '') {
-        params.push(['ratingsColorMode', typeRatingsColorMode]);
-      }
-      if (typeof typeRatingStyle === 'string' && typeRatingStyle !== '') {
-        params.push(['ratingStyle', typeRatingStyle]);
-      }
-      if (options.imageType !== 'thumbnail' && typeof config.backdropImageText === 'string' && config.backdropImageText !== '') {
-        params.push(['imageText', config.backdropImageText]);
-      }
-      pushIfString(options.imageType === 'thumbnail' ? 'thumbnailRatingsLayout' : 'backdropRatingsLayout');
-      pushIfString(options.imageType === 'thumbnail' ? 'thumbnailVerticalBadgeContent' : 'backdropVerticalBadgeContent');
-      if (options.imageType === 'thumbnail') {
-        const thumbnailRatingsSource = config.thumbnailRatings ?? config.ratings;
-        const thumbnailRatings = filterThumbnailRatings(thumbnailRatingsSource);
-        if (typeof thumbnailRatingsSource === 'string') {
-          params.push(['ratings', thumbnailRatings]);
-        }
-        pushIfString('thumbnailSize');
-      } else {
-        pushIfString('backdropRatings');
-        pushIfString('backdropRatingsSize');
-      }
+      pushIfString('backdropRatings');
+      pushIfString('backdropRatingsSize');
     }
   } else {
     pushIfString('logoLang');
@@ -746,14 +730,14 @@ export const buildAiometadataPatternBlock = (options: {
   const idPattern =
     options.idPattern ||
     (options.imageType === 'thumbnail'
-      ? 'series/tmdb:{tmdb_id}:{season}:{episode}'
-      : '{type}/tmdb:{tmdb_id}');
+      ? 'tmdb:{tmdb_id}:{season}:{episode}'
+      : 'tmdb:{tmdb_id}');
   const basePattern = `${options.baseUrl}/${options.imageType}/${idPattern}.jpg`;
   return query ? `${basePattern}?${query}` : basePattern;
 };
 
 export const buildEpisodeThumbnailIdPattern = (provider: AiometadataEpisodeProvider) =>
-  provider === 'tvdb' ? 'series/tvdb:{tvdb_id}:{season}:{episode}' : 'series/realimdb:{imdb_id}:{season}:{episode}';
+  provider === 'tvdb' ? 'tvdb:{tvdb_id}:{season}:{episode}' : 'realimdb:{imdb_id}:{season}:{episode}';
 
 export const downloadJsonFile = (payload: Record<string, unknown>, filename: string) => {
   if (typeof window === 'undefined') return;

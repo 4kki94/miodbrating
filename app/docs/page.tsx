@@ -143,7 +143,8 @@ export default function DocsPage() {
               rows={[
                 [<Code key="token">token</Code>, 'Tk-xxxxxxxxxxxxxxx', 'required', 'Unique account token generated via the UI or /api/token.'],
                 [<Code key="type">type</Code>, 'poster, backdrop, logo, thumbnail', '-', 'thumbnail is episode-only.'],
-                [<Code key="kind">kind</Code>, 'movie, series, anime', 'optional', 'Optional segment after the type. movie/series force movie/TV resolution and are the recommended form for TMDB IDs; anime is accepted and ignored (the ID prefix drives anime resolution).'],
+                [<Code key="kind">kind</Code>, 'movie, series, anime', 'optional', 'Optional: path segment after the type or ?type= query param. movie/series force movie/TV resolution and are the recommended form for TMDB IDs; anime is accepted and ignored (the ID prefix drives anime resolution).'],
+                [<Code key="shape">shape</Code>, 'poster, landscape', 'from panel', 'poster-only. landscape forces the backdrop-as-poster rendering for that request, overriding the panel setting; poster forces the normal poster; unsupported values (e.g. square) are ignored.'],
                 [<Code key="stored">stored config</Code>, `providers: ${providers}`, 'saved in token', `Saved server-side, including styles (${styles}), layouts (${posterLayouts}; ${backdropLayouts}; ${thumbnailLayouts}), thumbnail sizes (${thumbnailSizes}), logo fonts (${logoFonts}), and logo modes (${logoModes}).`],
                 [<Code key="lang">lang behavior</Code>, 'TMDB language code', 'saved in token', 'Usually configured once in the workspace and reused automatically.'],
                 [<Code key="overrides">query overrides</Code>, 'not required', 'off', 'Integrations should prefer token-only renderer URLs and avoid per-request config fields.'],
