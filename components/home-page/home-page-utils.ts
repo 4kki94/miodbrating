@@ -746,14 +746,14 @@ export const buildAiometadataPatternBlock = (options: {
   const idPattern =
     options.idPattern ||
     (options.imageType === 'thumbnail'
-      ? 'tmdb:{type}:{tmdb_id}:{season}:{episode}'
-      : 'tmdb:{type}:{tmdb_id}');
+      ? 'series/tmdb:{tmdb_id}:{season}:{episode}'
+      : '{type}/tmdb:{tmdb_id}');
   const basePattern = `${options.baseUrl}/${options.imageType}/${idPattern}.jpg`;
   return query ? `${basePattern}?${query}` : basePattern;
 };
 
 export const buildEpisodeThumbnailIdPattern = (provider: AiometadataEpisodeProvider) =>
-  provider === 'tvdb' ? 'tvdb:{tvdb_id}:{season}:{episode}' : 'realimdb:{imdb_id}:{season}:{episode}';
+  provider === 'tvdb' ? 'series/tvdb:{tvdb_id}:{season}:{episode}' : 'series/realimdb:{imdb_id}:{season}:{episode}';
 
 export const downloadJsonFile = (payload: Record<string, unknown>, filename: string) => {
   if (typeof window === 'undefined') return;

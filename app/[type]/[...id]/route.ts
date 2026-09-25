@@ -114,7 +114,7 @@ const buildSecretCacheSeed = (name: string, value?: string | null) => {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ type: string; id: string }> }
+  { params }: { params: Promise<{ type: string; id: string[] }> }
 ) {
   const requestStartedAt = performance.now();
   const phases: PhaseDurations = {
@@ -141,7 +141,17 @@ export async function GET(
   const imageType = type;
   const previewDiagnosticsEnabled = request.nextUrl.searchParams.get('previewDiagnostics') === 'on';
   const outputFormat = pickOutputFormat(imageType, request.headers.get('accept'));
-  const cleanId = id.replace('.jpg', '');
+  const rawId = (Array.isArray(id) ? id.join('/') : String(id)).replace('.jpg', '');
+  const [idKindSegment, ...idRemainderSegments] = rawId.split('/');
+  const kindSegment = (idKindSegment || '').toLowerCase();
+  const hasKindSegment =
+    idRemainderSegments.length > 0 &&
+    (kindSegment === 'movie' || kindSegment === 'series' || kindSegment === 'tv' || kindSegment === 'anime');
+  const pathMediaKind: 'movie' | 'tv' | null =
+    hasKindSegment && kindSegment !== 'anime'
+      ? (kindSegment === 'movie' ? 'movie' : 'tv')
+      : null;
+  let cleanId = hasKindSegment ? idRemainderSegments.join('/') : rawId;
 
   // Extract configuration from token or query parameters
   const token = request.nextUrl.searchParams.get('token') || request.headers.get('x-erdb-token');
@@ -477,6 +487,7 @@ export async function GET(
         inputAnimeMappingExternalId = mediaId;
       }
     } else {
+      explicitTmdbMediaType = pathMediaKind;
       mediaId = parts[1];
       season = parts.length > 2 ? parts[2] : null;
       episode = parts.length > 3 ? parts[3] : null;
@@ -509,6 +520,10 @@ export async function GET(
   } else {
     season = parts.length > 1 ? parts[1] : null;
     episode = parts.length > 2 ? parts[2] : null;
+  }
+
+  if (isTmdb && explicitTmdbMediaType && mediaId) {
+    cleanId = `tmdb:${explicitTmdbMediaType}:${mediaId}${season ? `:${season}` : ''}${episode ? `:${episode}` : ''}`;
   }
 
   const activeImageLang =
