@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.6.4](https://github.com/realbestia1/erdb/compare/v0.6.3...v0.6.4) - 2026-09-25
+
+- Support optional 'kind' segment in image URLs ([7abe75b](https://github.com/realbestia1/erdb/commit/7abe75ba463d9a0a2dabff3bf8a3d49410c8e74e))
+  Add optional "kind" segment (movie/series, anime accepted) to token-based renderer URLs and rename route to capture multi-segment ids. Parse and normalize kind into cleanId (including explicit TMDB media type), preserving legacy URLs. Update docs, AI prompt, and UI: new Nuvio patterns, split movie/series ID patterns, workspace modal refactor, and Clapperboard icon. buildRendererUrl signature updated to accept kind; middleware comment updated. Bump package version to 0.6.4. Backward compatible with existing URLs.
+
 ## [0.6.3](https://github.com/realbestia1/erdb/compare/v0.6.2...v0.6.3) - 2026-09-24
 
 - Redesign workspace configurator UI and add catalog reordering ([cf75dc2](https://github.com/realbestia1/erdb/commit/cf75dc22b099ec28ebcc917e322296acbfcb98d9))
