@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.4](https://github.com/realbestia1/erdb/compare/v0.7.3...v0.7.4) - 2026-09-26
+
+- Fix episode IMDb fallback for ratings ([1593dec](https://github.com/realbestia1/erdb/commit/1593decbad8e67e32ca1ec1cdeba8d83eaf1f0d8))
+  Use the parent series IMDb ID when TMDB episode results lack an IMDb ID, improving ratings for episodes that rely on show-level metadata. This also updates the renderer cache version and bumps the app patch version for the release.
+
 ## [0.7.3](https://github.com/realbestia1/erdb/compare/v0.7.2...v0.7.3) - 2026-09-26
 
 - Remove ranking icon dependency from poster render ([09e11d9](https://github.com/realbestia1/erdb/commit/09e11d9f77f0652f25865588399d773f9a66401f))
