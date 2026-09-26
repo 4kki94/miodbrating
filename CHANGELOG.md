@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.5](https://github.com/realbestia1/erdb/compare/v0.7.4...v0.7.5) - 2026-09-26
+
+- Fix TV IMDb fallback for new series ([0cf3203](https://github.com/realbestia1/erdb/commit/0cf32030db22e0c58a92eb9348f390df52d85ce5))
+  Derive missing TV show IMDb IDs from the first episode when TMDB omits them for brand-new series. The fallback uses the episode IMDb ID and the local IMDb episode-to-series dataset mapping, then applies it in both rating lookup paths. This also bumps the image renderer cache version and package version to invalidate stale cached outputs.
+
 ## [0.7.4](https://github.com/realbestia1/erdb/compare/v0.7.3...v0.7.4) - 2026-09-26
 
 - Fix episode IMDb fallback for ratings ([1593dec](https://github.com/realbestia1/erdb/commit/1593decbad8e67e32ca1ec1cdeba8d83eaf1f0d8))
