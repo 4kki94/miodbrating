@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.3](https://github.com/realbestia1/erdb/compare/v0.7.2...v0.7.3) - 2026-09-26
+
+- Remove ranking icon dependency from poster render ([09e11d9](https://github.com/realbestia1/erdb/commit/09e11d9f77f0652f25865588399d773f9a66401f))
+  This change stops fetching the external ranking logo during poster generation and instead renders badges without the icon, while updating the final image cache version to invalidate stale poster assets. It also bumps the app version to 0.7.3.
+
 ## [0.7.2](https://github.com/realbestia1/erdb/compare/v0.7.1...v0.7.2) - 2026-09-26
 
 - Use fixed TMDB poster fallback language ([d7baec9](https://github.com/realbestia1/erdb/commit/d7baec94d749f20edd3c9337a7402504b02c1738))
