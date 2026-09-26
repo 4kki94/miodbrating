@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.5](https://github.com/realbestia1/erdb/compare/v0.7.4...v0.7.5) - 2026-09-26
+
+- Fix TV IMDb fallback for new series ([0cf3203](https://github.com/realbestia1/erdb/commit/0cf32030db22e0c58a92eb9348f390df52d85ce5))
+  Derive missing TV show IMDb IDs from the first episode when TMDB omits them for brand-new series. The fallback uses the episode IMDb ID and the local IMDb episode-to-series dataset mapping, then applies it in both rating lookup paths. This also bumps the image renderer cache version and package version to invalidate stale cached outputs.
+
+## [0.7.4](https://github.com/realbestia1/erdb/compare/v0.7.3...v0.7.4) - 2026-09-26
+
+- Fix episode IMDb fallback for ratings ([1593dec](https://github.com/realbestia1/erdb/commit/1593decbad8e67e32ca1ec1cdeba8d83eaf1f0d8))
+  Use the parent series IMDb ID when TMDB episode results lack an IMDb ID, improving ratings for episodes that rely on show-level metadata. This also updates the renderer cache version and bumps the app patch version for the release.
+
+## [0.7.3](https://github.com/realbestia1/erdb/compare/v0.7.2...v0.7.3) - 2026-09-26
+
+- Remove ranking icon dependency from poster render ([09e11d9](https://github.com/realbestia1/erdb/commit/09e11d9f77f0652f25865588399d773f9a66401f))
+  This change stops fetching the external ranking logo during poster generation and instead renders badges without the icon, while updating the final image cache version to invalidate stale poster assets. It also bumps the app version to 0.7.3.
+
 ## [0.7.2](https://github.com/realbestia1/erdb/compare/v0.7.1...v0.7.2) - 2026-09-26
 
 - Use fixed TMDB poster fallback language ([d7baec9](https://github.com/realbestia1/erdb/commit/d7baec94d749f20edd3c9337a7402504b02c1738))
