@@ -1183,6 +1183,14 @@ export async function GET(
               mediaId = String(episodeResult.show_id);
               season = Number.isFinite(Number(episodeResult.season_number)) ? String(episodeResult.season_number) : season;
               episode = Number.isFinite(Number(episodeResult.episode_number)) ? String(episodeResult.episode_number) : episode;
+              // The raw id is an episode: TMDB often has no IMDb id on the show,
+              // so fall back to the episode's parent series from the IMDb dataset for ratings.
+              const datasetEpisode = getImdbEpisodeFromDataset(rawImdbSeriesId);
+              if (datasetEpisode?.seriesImdbId && isImdbId(datasetEpisode.seriesImdbId)) {
+                mappedImdbId = datasetEpisode.seriesImdbId;
+              } else if (isImdbId(rawImdbSeriesId)) {
+                mappedImdbId = rawImdbSeriesId;
+              }
 
               const showResponse = await fetchJsonCached(
                 `tmdb:tv:${mediaId}`,
