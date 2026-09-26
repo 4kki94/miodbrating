@@ -1292,8 +1292,7 @@ export async function GET(
         requestLanguage: lang,
         fallbackLanguage: FALLBACK_IMAGE_LANGUAGE,
       });
-      const effectivePosterFallbackImageLang =
-        normalizeTmdbLanguageCode(lang) || FALLBACK_IMAGE_LANGUAGE;
+      const effectivePosterFallbackImageLang = FALLBACK_IMAGE_LANGUAGE;
       const requestedImageLanguageFallbacks = getTmdbLanguageFallbackChain(
         requestedImageLang,
         FALLBACK_IMAGE_LANGUAGE
