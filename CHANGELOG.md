@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.1](https://github.com/realbestia1/erdb/compare/v0.7.0...v0.7.1) - 2026-09-26
+
+- Improve poster selection and bump version ([b8ebc96](https://github.com/realbestia1/erdb/commit/b8ebc96def871735bd433dbf81676ccdca9834b5))
+  Refresh the final image renderer cache key and update TMDB poster selection to prefer non-textless posters when falling back across language variants. This improves poster image quality and consistency for localized rendering. Also bumps the package version to 0.7.1.
+
 ## [0.7.0](https://github.com/realbestia1/erdb/compare/v0.6.4...v0.7.0) - 2026-09-25
 
 - Support backdrop-as-poster via shape/type query ([ae1f460](https://github.com/realbestia1/erdb/commit/ae1f4603e452a15fc4a4e850dd030a837872a44f))
