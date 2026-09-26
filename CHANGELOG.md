@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [0.7.2](https://github.com/realbestia1/erdb/compare/v0.7.1...v0.7.2) - 2026-09-26
+
+- Use fixed TMDB poster fallback language ([d7baec9](https://github.com/realbestia1/erdb/commit/d7baec94d749f20edd3c9337a7402504b02c1738))
+  Poster image fallback selection was incorrectly normalizing the requested language instead of using the configured default fallback. This patch forces the poster fallback to the standard TMDB fallback language so image selection is consistent across locales. It also bumps the app version to 0.7.2 and refreshes the generated tsbuildinfo artifact.
+
 ## [0.7.1](https://github.com/realbestia1/erdb/compare/v0.7.0...v0.7.1) - 2026-09-26
 
 - Improve poster selection and bump version ([b8ebc96](https://github.com/realbestia1/erdb/commit/b8ebc96def871735bd433dbf81676ccdca9834b5))
